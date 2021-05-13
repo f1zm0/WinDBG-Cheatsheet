@@ -1,14 +1,18 @@
-# WinDBG Notes <!-- omit in toc -->
+# WinDBG Notes
 
-- [Command Reference](#command-reference)
-  - [Registers](#registers)
-  - [Memory](#memory)
-  - [Breakpoints](#breakpoints)
-  - [Tracing](#tracing)
-  - [Disassembly](#disassembly)
-  - [Modules](#modules)
-- [Other resources](#other-resources)
 
+<!-- vim-markdown-toc GFM -->
+
+* [Command Reference](#command-reference)
+    * [Registers](#registers)
+    * [Memory](#memory)
+    * [Breakpoints](#breakpoints)
+    * [Tracing](#tracing)
+    * [Disassembly](#disassembly)
+    * [Modules](#modules)
+* [Other resources](#other-resources)
+
+<!-- vim-markdown-toc -->
 
 ## Command Reference
 
@@ -36,7 +40,8 @@
 | Command | Function                                                           | Example                    |
 | ------- | ------------------------------------------------------------------ | -------------------------- |
 | `bp`    | set a breakpoint                                                   | `bp kernel32!VirtualAlloc` |
-| `bu`    | set unresolved breakpoint (becomes `bp` when the module is loaded) | `bu test!TestFunc`   |
+| `bu`    | set unresolved breakpoint (becomes `bp` when the module is loaded) | `bu test!TestFunc`         |
+| `bm`    | set breakpoint on module function[s] using pattern                 | `bm wow64!*`               |
 | `bc`    | clear all breakpoints                                              | `bc *`                     |
 
 
@@ -52,19 +57,21 @@
 
 ### Disassembly
 
-| Command        | Function                         | Example                        |
-| -------------- | -------------------------------- | ------------------------------ |
-| `u`            | unassemble                       | `u kernel32!VirtualAlloc+0x4f` |
-| `uf /o [addr]` | unassemble function with offsets | `uf /o amsi!AmsiOpenSession`   |
+| Command         | Function                           | Example                        |
+| --------------  | --------------------------------   | ------------------------------ |
+| `u <name/addr>` | unassemble                         | `u kernel32!VirtualAlloc+0x4f` |
+| `u poi(<addr>)` | unassemble from address at pointer | `u poi(777a9228)`              |
+| `uf /o [addr]`  | unassemble function with offsets   | `uf /o amsi!AmsiOpenSession`   |
 
 
 ### Modules
 
-| Command           | Function                          | Example       |
-| ----------------- | --------------------------------- | ------------- |
-| `lm`              | list loaded (or deferred) modules | -             |
-| `lm m <module>`   | check if a module is loaded       | `lm m amsi`   |
-| `sxe ld <module>` | break when a module is loaded     | `sxe ld amsi` |
+| Command              | Function                                          | Example              |
+| -----------------    | ---------------------------------                 | -------------        |
+| `lm`                 | list loaded (or deferred) modules                 | -                    |
+| `lm m <module>`      | check if a module is loaded                       | `lm m amsi`          |
+| `sxe ld <module>`    | break when a module is loaded                     | `sxe ld amsi`        |
+| `x <module>!<regex>` | show functions exported by the module (reads EAT) | `x ntdll!*Allocate*` |
 
 
 
