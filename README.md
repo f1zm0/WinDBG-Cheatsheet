@@ -1,4 +1,3 @@
-# WinDBG Notes
 
 
 <!-- vim-markdown-toc GFM -->
