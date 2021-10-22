@@ -1,4 +1,4 @@
-# WinDBG Notes
+# WinDBG
 
 <!-- vim-markdown-toc GFM -->
 
