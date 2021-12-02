@@ -9,7 +9,7 @@
     * [Tracing](#tracing)
     * [Disassembly](#disassembly)
     * [Modules](#modules)
-* [Other resources](#other-resources)
+* [NTAPI Structures](#ntapi-structures)
 
 <!-- vim-markdown-toc -->
 
@@ -46,12 +46,12 @@
 
 ### Tracing
 
-| Command    | Function                                    | Example |
-| ---------- | ------------------------------------------- | ------- |
-| `g` (F5)   | go (or resume execution)                    | -       |
-| `p` (F10)  | single step                                 | -       |
-| `p <addr>` | step to address                             | -       |
-| `pr`       | toggle display of registers after each step | -       |
+| Command    | Function                                    |
+| ---------- | ------------------------------------------- |
+| `g` (F5)   | go (or resume execution)                    |
+| `p` (F10)  | single step                                 |
+| `p <addr>` | step to address                             |
+| `pr`       | toggle display of registers after each step |
 
 
 ### Disassembly
@@ -73,7 +73,14 @@
 | `x <module>!<regex>` | show functions exported by the module (reads EAT) | `x ntdll!*Allocate*` |
 
 
+## NTAPI Structures
 
-## Other resources
 
-- [defuse.ca / Online Assembler/Disassembler](https://defuse.ca/online-x86-assembler.htm)
+| Command                                               | Function                                                            | Example                                                       |
+| -----------------                                     | ---------------------------------                                   | -------------                                                 |
+| `r $teb`                                              | display TEB base address                                            | -                                                             |
+| `r $peb`                                              | display PEB base address                                            | -                                                             |
+| `dt ntdll!_PEB @$peb`                                 | display type `ntdll!_PEB` starting from address stored in `$peb`    | -                                                             |
+| `dt ntdll!_PEB @$peb <struct>-><pointed struct>->...` | display sub structures starting from PEB                            | `dt ntdll!_PEB @$peb Ldr->InMemoryOrderModuleList`            |
+| `!list -x  "dt <type> <attribute[s]>" <base_addr>`    | use link extension to traverse linked list starting at base address | `!list -x "dt _LDR_DATA_TABLE_ENTRY BaseDllName" 0x0001ed...` |
+
