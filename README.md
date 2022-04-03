@@ -1,10 +1,12 @@
 # WinDBG
 
+
 <!-- vim-markdown-toc GFM -->
 
 * [Command Reference](#command-reference)
     * [Registers](#registers)
     * [Memory](#memory)
+    * [Strings](#strings)
     * [Breakpoints](#breakpoints)
     * [Tracing](#tracing)
     * [Disassembly](#disassembly)
@@ -17,66 +19,71 @@
 
 ### Registers
 
-| Command           | Function              | Example     |
-| ----------------- | --------------------- | ----------- |
-| `r`               | show all registers    | -           |
-| `r <reg>,[<reg>]` | show registry content | `r rax,rsp` |
-| `r @<reg>=<val>`  | set registry value    | `r @rax=0`  |
+| Function              | Command           | Examples    |
+| --------------------- | ----------------- | ----------- |
+| show all registers    | `r`               | -           |
+| show registry content | `r <reg>,[<reg>]` | `r rax,rsp` |
+| set registry value    | `r @<reg>=<val>`  | `r @rax=0`  |
 
 
 ### Memory
 
-| Command              | Function                                                         | Example               |
-| -------------------- | ---------------------------------------------------------------- | --------------------- |
-| `dc <addr> [format]` | dump memory content at specified address                         | `dc 7ffe040d0110 L4`  |
-| `e <addr> <val>`     | edit memory at specified address. (1+ values separated by space) | `e $ip a3 b6 c9`      |
-| `!vprot <addr>`      | show protection attributes for memory page at specified address  | `!vprot 7ffe040d0110` |
+| Function                                    | Command                       | Type / Size                                                                | Examples             |
+| ------------------------------------------- | --------------------          | ---------------------                                                      | --------------       |
+| display memory at address                   | `d* <addr> [format]`          | bytes: `db`<br>words:`dw`<br>dwords: `dd`<br>qwords: `dq`<br>pointer: `dp` | `db 7ffe040d0110 L4` |
+| edit memory at address                      | `e* <addr> <val> [<val> ...]` | bytes: `eb`<br>word: `ew`<br>dword: `ed`<br>qword: `eq`<br>pointer `ep`    | `eb @ip a3 b6 c9`    |
+| show protection attributes for memory page  | `!vprot <addr>`               |                                                                            |                      |
+| dereference memory at address               | `d* poi(<addr>)`              |                                                                            | `dq poi(@rax)`       |
 
+### Strings
 
+| Function                                    | Command                       | Type / Size                 | Examples                 |
+| ------------------------------------------- | --------------------          | ---------------------       | --------                 |
+| display string at address                   | `d* <addr>`                   | ascii: `da`<br>unicode:`du` | `da 7ffe040d0110`        |
+| edit string at address                      | `e* <addr> <val> [<val> ...]` | ascii: `ea`<br>unicode:`eu` | `ea 7ffe040d0110 "AAAA"` |
 
 ### Breakpoints
 
-| Command | Function                                                           | Example                    |
-| ------- | ------------------------------------------------------------------ | -------------------------- |
-| `bp`    | set a breakpoint                                                   | `bp kernel32!VirtualAlloc` |
-| `bu`    | set unresolved breakpoint (becomes `bp` when the module is loaded) | `bu test!TestFunc`         |
-| `bm`    | set breakpoint on module function[s] using pattern                 | `bm wow64!*`               |
-| `bc`    | clear all breakpoints                                              | `bc *`                     |
+| Function                                                           | Command | Examples                    |
+| ------------------------------------------------------------------ | ------- | -------------------------- |
+| set a breakpoint                                                   | `bp`    | `bp kernel32!VirtualAlloc` |
+| set unresolved breakpoint (becomes `bp` when the module is loaded) | `bu`    | `bu test!TestFunc`         |
+| set breakpoint on module function[s] using pattern                 | `bm`    | `bm wow64!*`               |
+| clear all breakpoints                                              | `bc`    | `bc *`                     |
 
 
 ### Tracing
 
-| Command    | Function                                    |
-| ---------- | ------------------------------------------- |
-| `g` (F5)   | go (or resume execution)                    |
-| `p` (F10)  | single step                                 |
-| `p <addr>` | step to address                             |
-| `pr`       | toggle display of registers after each step |
+| Function                                    | Command    |
+| ------------------------------------------- | ---------- |
+| go (or resume execution)                    | `g` (F5)   |
+| single step                                 | `p` (F10)  |
+| step to address                             | `p <addr>` |
+| toggle display of registers after each step | `pr`       |
 
 
 ### Disassembly
 
-| Command         | Function                           | Example                        |
-| --------------  | --------------------------------   | ------------------------------ |
-| `u <name/addr>` | unassemble                         | `u kernel32!VirtualAlloc+0x4f` |
-| `u poi(<addr>)` | unassemble from address at pointer | `u poi(777a9228)`              |
-| `uf /o [addr]`  | unassemble function with offsets   | `uf /o amsi!AmsiOpenSession`   |
+| Function                           | Command         | Examples                        |
+| --------------------------------   | --------------  | ------------------------------ |
+| unassemble                         | `u <name/addr>` | `u kernel32!VirtualAlloc+0x4f` |
+| unassemble from address at pointer | `u poi(<addr>)` | `u poi(777a9228)`              |
+| unassemble function with offsets   | `uf /o [addr]`  | `uf /o amsi!AmsiOpenSession`   |
 
 
 ### Modules
 
-| Command              | Function                                          | Example              |
-| -----------------    | ---------------------------------                 | -------------        |
-| `lm`                 | list loaded (or deferred) modules                 | -                    |
-| `lm m <module>`      | check if a module is loaded                       | `lm m amsi`          |
-| `sxe ld <module>`    | break when a module is loaded                     | `sxe ld amsi`        |
-| `x <module>!<regex>` | show functions exported by the module (reads EAT) | `x ntdll!*Allocate*` |
+| Function                                          | Command              | Examples              |
+| ---------------------------------                 | -----------------    | -------------        |
+| list loaded (or deferred) modules                 | `lm`                 | -                    |
+| check if a module is loaded                       | `lm m <module>`      | `lm m amsi`          |
+| break when a module is loaded                     | `sxe ld <module>`    | `sxe ld amsi`        |
+| show functions exported by the module (reads EAT) | `x <module>!<regex>` | `x ntdll!*Allocate*` |
 
 
 ## NTAPI Structures
 
-
-| Command                                               | Function                                                            | Example                                                       |
+| Command                                               | Function                                                            | Examples                                                       |
 | -----------------                                     | ---------------------------------                                   | -------------                                                 |
 | `r $teb`                                              | display TEB base address                                            | -                                                             |
 | `r $peb`                                              | display PEB base address                                            | -                                                             |
