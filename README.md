@@ -28,12 +28,12 @@
 
 ### Memory
 
-| Function                                    | Command                       | Type / Size                                                                | Examples             |
-| ------------------------------------------- | --------------------          | ---------------------                                                      | --------------       |
-| display memory at address                   | `d* <addr> [format]`          | bytes: `db`<br>words:`dw`<br>dwords: `dd`<br>qwords: `dq`<br>pointer: `dp` | `db @rax L4` |
-| edit memory at address                      | `e* <addr> <val> [<val> ...]` | bytes: `eb`<br>word: `ew`<br>dword: `ed`<br>qword: `eq`<br>pointer `ep`    | `eb @ip a3 b6 c9`    |
-| show protection attributes for memory page  | `!vprot <addr>`               |                                                                            |                      |
-| dereference memory at address               | `d* poi(<addr>)`              |                                                                            | `dq poi(@rax)`       |
+| Function                                    | Command                       | Type / Size                                                                | Examples          |
+| ------------------------------------------- | --------------------          | ---------------------                                                      | --------------    |
+| display memory at address                   | `d* <addr> [format]`          | bytes: `db`<br>words:`dw`<br>dwords: `dd`<br>qwords: `dq`<br>pointer: `dp` | `db @rax L4`      |
+| edit memory at address                      | `e* <addr> <val> [<val> ...]` | bytes: `eb`<br>word: `ew`<br>dword: `ed`<br>qword: `eq`<br>pointer `ep`    | `eb @ip a3 b6 c9` |
+| show protection attributes                  | `!vprot <addr>`               | memory page                                                                |                   |
+| dereference memory at address               | `d* poi(<addr>)`              |                                                                            | `dq poi(@rax)`    |
 
 ### Strings
 
