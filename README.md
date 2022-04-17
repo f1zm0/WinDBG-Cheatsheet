@@ -3,6 +3,8 @@
 
 <!-- vim-markdown-toc GFM -->
 
+* [Setup](#setup)
+    * [Symbols](#symbols)
 * [Command Reference](#command-reference)
     * [Registers](#registers)
     * [Memory](#memory)
@@ -14,6 +16,16 @@
 * [NTAPI Structures](#ntapi-structures)
 
 <!-- vim-markdown-toc -->
+
+## Setup
+
+### Symbols
+
+Download symbols locally
+```
+.symfix+ c:\symbols
+.reload
+```
 
 ## Command Reference
 
